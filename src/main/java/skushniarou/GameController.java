@@ -10,7 +10,7 @@ class GameController {
     @Autowired
     private GameService gameService;
 
-    @PostMapping("/new")
+    @PostMapping("/newGame")
     public Game createGame() {
         return gameService.createNewGame();
     }
