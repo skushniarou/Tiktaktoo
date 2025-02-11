@@ -7,9 +7,13 @@ import jakarta.persistence.*;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
+    @Column(name="board")
     private String board;
+    @Column(name="currentPlayer")
     private String currentPlayer;
+    @Column(name="status")
     private String status;
 
     // Getters and Setters
