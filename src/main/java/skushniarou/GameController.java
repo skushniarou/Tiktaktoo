@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/games")
+@RequestMapping("/game")
 class GameController {
     @Autowired
     private GameService gameService;
