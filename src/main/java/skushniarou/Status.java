@@ -3,7 +3,10 @@ package skushniarou;
 public enum Status {
     INITIAL("INITIAL"),
     IN_PROGRESS("IN_PROGRESS"),
-    END("END");
+    END("END"),
+    WIN("WIN"),
+    DRAW("DRAW"),
+    LOSE("LOSE");
 
     private String value;
 
@@ -13,5 +16,9 @@ public enum Status {
 
     public String getValue() {
         return value;
+    }
+
+    public String toString() {
+        return String.valueOf(value);
     }
 }

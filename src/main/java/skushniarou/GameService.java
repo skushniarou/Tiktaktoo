@@ -6,14 +6,17 @@ import java.util.Optional;
 
 @Service
 public class GameService {
-    @Autowired
-    private GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
+    @Autowired
+    public GameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
     public Game createNewGame() {
         Game game = new Game();
-        game.setBoard("--X---O--");
+        game.setBoard("---------");
         game.setCurrentPlayer("X");
-        game.setStatus("IN_PROGRESS");
+        game.setStatus(Status.IN_PROGRESS);
         return gameRepository.save(game);
     }
 
@@ -26,15 +29,15 @@ public class GameService {
         Optional<Game> optionalGame = gameRepository.findById(gameId);
         if (optionalGame.isPresent()) {
             Game game = optionalGame.get();
-            if (game.getStatus().equals("IN_PROGRESS") && game.getCurrentPlayer().equals(player)) {
+            if (game.getStatus().equals(Status.IN_PROGRESS) && game.getCurrentPlayer().equals(player)) {
                 String board = game.getBoard();
                 if (board.charAt(position) == '-') {
                     board = board.substring(0, position) + player + board.substring(position + 1);
                     game.setBoard(board);
                     if (checkWin(board, player)) {
-                        game.setStatus("END");
+                        game.setStatus(Status.END);
                     } else if (board.indexOf('-') == -1) {
-                        game.setStatus("DRAW");
+                        game.setStatus(Status.DRAW);
                     } else {
                         game.setCurrentPlayer(player.equals("X") ? "O" : "X");
                     }
@@ -56,3 +59,4 @@ public class GameService {
                 ("" + board.charAt(2) + board.charAt(4) + board.charAt(6)).equals(line));
     }
 }
+

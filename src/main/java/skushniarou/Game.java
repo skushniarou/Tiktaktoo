@@ -13,8 +13,9 @@ public class Game {
     private String board;
     @Column(name="currentPlayer")
     private String currentPlayer;
+    @Enumerated(EnumType.STRING)
     @Column(name="status")
-    private String status;
+    private Status status;
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -23,6 +24,6 @@ public class Game {
     public void setBoard(String board) { this.board = board; }
     public String getCurrentPlayer() { return currentPlayer; }
     public void setCurrentPlayer(String currentPlayer) { this.currentPlayer = currentPlayer; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
 }
