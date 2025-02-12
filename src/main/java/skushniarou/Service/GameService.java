@@ -1,8 +1,14 @@
-package skushniarou;
+package skushniarou.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import skushniarou.Game;
+import skushniarou.GameRepository;
+import skushniarou.Status;
+
 import java.util.Optional;
+
+import static skushniarou.View.OtherView.printOneLineInfo;
 
 @Service
 public class GameService {
@@ -21,7 +27,7 @@ public class GameService {
     }
 
     public Optional<Game> getGame(Long id) {
-        System.out.println("Spiel mit id: " + id + " gefunden");
+        printOneLineInfo("Spiel mit id: " + id + " gefunden");
         return gameRepository.findById(id);
     }
 
@@ -32,7 +38,7 @@ public class GameService {
             if (game.getStatus().equals(Status.IN_PROGRESS) && game.getCurrentPlayer().equals(player)) {
                 String board = game.getBoard();
                 if (board.charAt(position) == '-') {
-                    board = board.substring(0, position) + player + board.substring(position + 1);
+                    board = board.substring(0, position) + player + board.substring(position +1);
                     game.setBoard(board);
                     if (checkWin(board, player)) {
                         game.setStatus(Status.END);

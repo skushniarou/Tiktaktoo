@@ -1,6 +1,12 @@
-package skushniarou;
+package skushniarou.View;
+
+import skushniarou.Game;
+import skushniarou.Service.GameService;
+import skushniarou.Status;
 
 import java.util.Scanner;
+
+import static skushniarou.View.OtherView.printOneLineInfo;
 
 public class GameConsole {
     private final GameService gameService;
@@ -13,18 +19,18 @@ public class GameConsole {
     public void start() {
         Scanner scanner = new Scanner(System.in);
         currentGame = gameService.createNewGame();
-        System.out.println("New game started!");
+        printOneLineInfo("New game started!");
         GameView.printBoard(currentGame);
 
         while (currentGame.getStatus() == Status.IN_PROGRESS) {
-            System.out.println("Current player: " + currentGame.getCurrentPlayer());
-            System.out.print("Enter position (0-8): ");
-            int position = scanner.nextInt();
+            printOneLineInfo("Current player: " + currentGame.getCurrentPlayer());
+            printOneLineInfo("Enter position (1-9): ");
+            int position = scanner.nextInt() - 1; // Adjust input to 0-8 range
             try {
                 currentGame = gameService.makeMove(currentGame.getId(), position, currentGame.getCurrentPlayer());
                 GameView.printBoard(currentGame);
                 if (currentGame.getStatus() != Status.IN_PROGRESS) {
-                    System.out.println("Game Over: " + currentGame.getStatus());
+                    printOneLineInfo("Game Over: " + currentGame.getStatus());
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());

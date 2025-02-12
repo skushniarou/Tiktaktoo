@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import skushniarou.Game;
-import skushniarou.GameService;
+import skushniarou.Service.GameService;
 
 import java.util.Optional;
 

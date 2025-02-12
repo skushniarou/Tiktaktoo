@@ -1,4 +1,6 @@
-package skushniarou;
+package skushniarou.View;
+
+import skushniarou.Game;
 
 public class GameView {
     static void printBoard(Game currentGame) {
