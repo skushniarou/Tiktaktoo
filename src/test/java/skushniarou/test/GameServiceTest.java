@@ -42,7 +42,7 @@ public class GameServiceTest {
     @Test
     public void testDrawCondition() {
         Game game = gameService.createNewGame();
-        game.setBoard("XOXOXOXOX");
+        game.setBoard("XXOOXXOOX");
         game = gameService.makeMove(game.getId(), 8, "X");
         Assertions.assertEquals(Status.DRAW, game.getStatus());
     }

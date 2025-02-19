@@ -25,7 +25,7 @@ public class GameConsole {
         while (currentGame.getStatus() == Status.IN_PROGRESS) {
             printOneLineInfo("Current player: " + currentGame.getCurrentPlayer());
             printOneLineInfo("Enter position (1-9): ");
-            int position = scanner.nextInt() - 1; // Adjust input to 0-8 range
+            int position = scanner.nextInt() - 1;
             try {
                 currentGame = gameService.makeMove(currentGame.getId(), position, currentGame.getCurrentPlayer());
                 GameView.printBoard(currentGame);
