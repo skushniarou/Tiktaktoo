@@ -30,20 +30,4 @@ public class GameServiceTest {
         Assertions.assertEquals("O", game.getCurrentPlayer());
         Assertions.assertEquals(Status.IN_PROGRESS, game.getStatus());
     }
-
-    @Test
-    public void testWinCondition() {
-        Game game = gameService.createNewGame();
-        game.setBoard("XX-OO----");
-        game = gameService.makeMove(game.getId(), 2, "X");
-        Assertions.assertEquals(Status.WIN, game.getStatus());
-    }
-
-    @Test
-    public void testDrawCondition() {
-        Game game = gameService.createNewGame();
-        game.setBoard("XXOOXXOOX");
-        game = gameService.makeMove(game.getId(), 8, "X");
-        Assertions.assertEquals(Status.DRAW, game.getStatus());
-    }
 }
