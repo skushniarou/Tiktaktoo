@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tik-Tak-Too</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Tik-Tak-Too</h1>
+    <button id="newGameBtn">New Game</button>
+    <div id="board" class="board">
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+        <div class="cell" data-index="9"></div>
+    </div>
+    <div id="status" class="status"></div>
+    <div class="move">
+        <input type="number" id="positionInput" placeholder="Position (1-9)" min="1" max="9">
+        <button id="moveBtn">Make Move</button>
+    </div>
+</div>
+<script>
+    let gameId = null;
+    const newGameBtn = document.getElementById('newGameButton');
+    const moveBtn = document.getElementById('moveButton');
+    const statusDiv = document.getElementById('status');
+    const boardDiv = document.getElementById('board');
+    const positionInput = document.getElementById('positionInput');
+
+    newGameBtn.addEventListener('click', () => {
+        fetch('/game/newGame', {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(game => {
+                gameId = game.id;
+                drawBoard(game.board);
+                statusDiv.textContent = 'Current Player: ' + game.currentPlayer;
+            })
+            .catch(err => console.error(err));
+    });
+
+    moveBtn.addEventListener('click', () => {
+        if (gameId == null) {
+            statusDiv.textContent = 'Start a new game first.';
+            return;
+        }
+        const pos = parseInt(positionInput.value) - 1;
+        if (isNaN(pos) || pos < 0 || pos > 8) {
+            statusDiv.textContent = 'Invalid position';
+            return;
+        }
+
+        const currentPlayer = statusDiv.textContent.split(': ')[1].split(' ')[0];
+        fetch(`/game/${gameId}/move?position=${pos}&player=${currentPlayer}`, {
+            method: 'POST'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text) });
+                }
+                return response.json();
+            })
+            .then(game => {
+                drawBoard(game.board);
+                statusDiv.textContent = 'Current Player: ' + game.currentPlayer;
+                if (game.status !== 'IN_PROGRESS') {
+                    statusDiv.textContent = 'Game Over: ' + game.status;
+                }
+            })
+            .catch(err => statusDiv.textContent = err.message);
+    });
+
+    function drawBoard(board) {
+        const cells = boardDiv.querySelectorAll('.cell');
+        cells.forEach((cell, idx) => {
+            cell.textContent = board[idx] === '-' ? '' : board[idx];
+        });
+    }
+</script>
+</body>
+</html>
